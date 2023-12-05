@@ -7,23 +7,22 @@
 
 import Foundation
 
-class BarikoiPlacesClient {
+struct BarikoiPlacesClient {
     
-    private var apiKey: String?
+    private static var userApiKey: String?
     
 //    public init(apiKey: String) {
 //        self.apiKey = apiKey
 //    }
     
     // set api key
-    public func myApiKey(_ apiKey: String) {
-        self.apiKey = apiKey
+    static func myApiKey(_ apiKey: String) {
+        userApiKey = apiKey
     }
     
-    public func getApiKey() -> String {
-        guard let apiKey = apiKey, !apiKey.isEmpty else { return "" }
+    static func getApiKey() -> String {
+        guard let apiKey = userApiKey, !apiKey.isEmpty else { return "" }
         return apiKey
     }
-    
     
 }
