@@ -74,7 +74,7 @@ public class BarikoiViewController: UIViewController {
     }
     
     private func getAutocompletePlaces(_ query: String) {
-        let api_key = BarikoiPlacesClient().getApiKey()
+        let api_key = BarikoiPlacesClient.getApiKey()
         guard !api_key.isEmpty else { return }
 
         if let query = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
