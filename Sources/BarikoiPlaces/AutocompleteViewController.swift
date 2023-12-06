@@ -8,7 +8,7 @@
 import UIKit
 import Foundation
 
-protocol BarikoiAutocompleteDelegate {
+public protocol BarikoiAutocompleteDelegate {
     func places(_ data: Place)
 }
 
@@ -40,7 +40,7 @@ public class BarikoiViewController: UIViewController {
     }()
     
     var placesArr: [Place] = []
-    var delegate: BarikoiAutocompleteDelegate?
+    public var delegate: BarikoiAutocompleteDelegate?
     
     public override func viewDidLoad() {
         super.viewDidLoad()
