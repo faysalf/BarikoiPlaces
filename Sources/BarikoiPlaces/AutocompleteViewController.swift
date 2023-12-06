@@ -41,6 +41,7 @@ public class BarikoiViewController: UIViewController {
     
     var placesArr: [Place] = []
     public var delegate: BarikoiAutocompleteDelegate?
+    var indicator = Indicator.shared
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +58,7 @@ public class BarikoiViewController: UIViewController {
         view.addSubview(searchBar)
         view.addSubview(tableView)
         view.addSubview(cancelButton)
+        view.addSubview(indicator)
     }
     
     private func setSearchBar() {
@@ -64,6 +66,7 @@ public class BarikoiViewController: UIViewController {
         searchBar.keyboardType = .default
         searchBar.frame = CGRect(x: 16, y: 66, width: view.bounds.width-80, height: 40)
         cancelButton.frame = CGRect(x: searchBar.frame.maxX+5, y: 66, width: 45, height: 40)
+        cancelButton.addTarget(self, action: #selector(didTapCancel), for: .touchUpInside)
     }
 
     private func setTableView() {
@@ -73,9 +76,15 @@ public class BarikoiViewController: UIViewController {
         tableView.dataSource = self
     }
     
+    // MARK: - Button actions
+    @objc func didTapCancel(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     private func getAutocompletePlaces(_ query: String) {
         let api_key = BarikoiPlacesClient.getApiKey()
         guard !api_key.isEmpty else { return }
+        indicator.startAnimating()
 
         if let query = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
             let url = URL(string: "https://barikoi.xyz/v2/api/search/autocomplete/place?api_key=\(api_key)&q=\(query)&bangla=true")!
@@ -84,9 +93,9 @@ public class BarikoiViewController: UIViewController {
             request.httpMethod = "GET"
             
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    print("Error: \(error)")
-                    return
+                
+                DispatchQueue.main.async {
+                    self.indicator.stopAnimating()
                 }
                 guard let data = data else { return }
                 
@@ -153,6 +162,8 @@ extension BarikoiViewController: UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(placesArr[indexPath.row])
         delegate?.places(placesArr[indexPath.row])
+        self.searchBar.text = ""
+        self.dismiss(animated: true, completion: nil)
     }
     
 }
