@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct BarikoiPlacesClient {
+public struct BarikoiPlacesClient {
     
     private static var userApiKey: String?
     
@@ -16,7 +16,7 @@ internal struct BarikoiPlacesClient {
 //    }
     
     // set api key
-    internal static func myApiKey(_ apiKey: String) {
+    public static func myApiKey(_ apiKey: String) {
         userApiKey = apiKey
     }
     
