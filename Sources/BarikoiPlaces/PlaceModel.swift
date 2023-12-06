@@ -14,16 +14,16 @@ struct PlaceModel: Codable {
 }
 
 public struct Place: Codable {
-    let id: Int
-    let longitude: String
-    let latitude: String
-    let address: String
-    let address_bn: String?
-    let city: String
-    let city_bn: String?
-    let area: String
-    let area_bn: String?
-    let postCode: Int
-    let pType: String
-    let uCode: String
+    public let id: Int
+    public let longitude: String
+    public let latitude: String
+    public let address: String
+    public let address_bn: String?
+    public let city: String
+    public let city_bn: String?
+    public let area: String
+    public let area_bn: String?
+    public let postCode: Int
+    public let pType: String
+    public let uCode: String
 }
