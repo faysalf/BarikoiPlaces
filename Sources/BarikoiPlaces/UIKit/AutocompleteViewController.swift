@@ -1,12 +1,11 @@
 //
 //  AutocompleteViewController.swift.swift
-//  
+//
 //
 //  Created by Md. Faysal Ahmed on 5/12/23.
 //
 
 import UIKit
-import Foundation
 
 public protocol BarikoiAutocompleteDelegate {
     func places(_ data: Place)
@@ -16,11 +15,12 @@ public class BarikoiViewController: UIViewController {
     
     private lazy var searchBar: UITextField = {
         let tf = UITextField()
+        tf.autocorrectionType = .no
         tf.backgroundColor = .clear
         tf.placeholder = "Search Location..."
         tf.textColor = .black
         tf.borderStyle = .roundedRect
-        tf.font = .systemFont(ofSize: 12)
+        tf.font = .systemFont(ofSize: 15)
         return tf
     }()
     
@@ -35,13 +35,14 @@ public class BarikoiViewController: UIViewController {
         btn.backgroundColor = .white
         btn.setTitle("Cancel", for: .normal)
         btn.setTitleColor(.black, for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 12)
+        btn.titleLabel?.font = .systemFont(ofSize: 15)
         return btn
     }()
     
     var placesArr: [Place] = []
     public var delegate: BarikoiAutocompleteDelegate?
     var indicator = Indicator.shared
+    var goForNextApiCall = true
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,13 +65,23 @@ public class BarikoiViewController: UIViewController {
     private func setSearchBar() {
         searchBar.delegate = self
         searchBar.keyboardType = .default
-        searchBar.frame = CGRect(x: 16, y: 66, width: view.bounds.width-80, height: 40)
-        cancelButton.frame = CGRect(x: searchBar.frame.maxX+5, y: 66, width: 45, height: 40)
-        cancelButton.addTarget(self, action: #selector(didTapCancel), for: .touchUpInside)
+        searchBar.frame = CGRect(x: 16,
+                                 y: UIApplication.topSafeAreaHeight+10,
+                                 width: view.bounds.width-37-55,
+                                 height: 40)
+        cancelButton.frame = CGRect(x: searchBar.frame.maxX+5,
+                                    y: UIApplication.topSafeAreaHeight+10,
+                                    width: 55,
+                                    height: 40)
+        cancelButton.addTarget(self, action: #selector(didTapCancel),
+                               for: .touchUpInside)
     }
 
     private func setTableView() {
-        tableView.frame = CGRect(x: 0, y: searchBar.frame.maxY+20, width: view.bounds.width, height: view.bounds.height-searchBar.frame.maxY-20)
+        tableView.frame = CGRect(x: 0,
+                                 y: searchBar.frame.maxY+20,
+                                 width: view.bounds.width,
+                                 height: view.bounds.height-searchBar.frame.maxY-20)
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.delegate = self
         tableView.dataSource = self
@@ -92,34 +103,39 @@ public class BarikoiViewController: UIViewController {
             var request = URLRequest(url: url)
             request.httpMethod = "GET"
             
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if goForNextApiCall {
+                goForNextApiCall = false
                 
-                DispatchQueue.main.async {
-                    self.indicator.stopAnimating()
-                }
-                guard let data = data else { return }
-                
-                do {
-                    let decoder = JSONDecoder()
-                    let placesData = try decoder.decode(PlaceModel.self, from: data)
-                    self.placesArr = []
+                let task = URLSession.shared.dataTask(with: request) { data, response, error in
                     
-                    for place in placesData.places {
-                        self.placesArr.append(place)
-                    }
                     DispatchQueue.main.async {
-                        self.tableView.reloadData()
+                        self.goForNextApiCall = true
+                        self.indicator.stopAnimating()
+                    }
+                    guard let data = data else { return }
+                    
+                    do {
+                        let decoder = JSONDecoder()
+                        let placesData = try decoder.decode(PlaceModel.self, from: data)
+                        self.placesArr = []
+                        
+                        for place in placesData.places {
+                            self.placesArr.append(place)
+                        }
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                        
+                    }catch {
+                        if let responseString = String(data: data, encoding: .utf8) {
+                            print(responseString)
+                        }
+                        print(error)
                     }
                     
-                }catch {
-                    if let responseString = String(data: data, encoding: .utf8) {
-                        print(responseString)
-                    }
-                    print(error)
                 }
-                
+                task.resume()
             }
-            task.resume()
         }
     }
 }
@@ -145,21 +161,25 @@ extension BarikoiViewController: UITextFieldDelegate {
 // MARK: - Table View delegate & datasource
 extension BarikoiViewController: UITableViewDelegate, UITableViewDataSource {
     
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView,
+                          numberOfRowsInSection section: Int) -> Int {
         return placesArr.count
     }
     
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView,
+                          cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
         cell.textContent = placesArr[indexPath.row]
         return cell
     }
     
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    public func tableView(_ tableView: UITableView,
+                          heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
     
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView,
+                          didSelectRowAt indexPath: IndexPath) {
         print(placesArr[indexPath.row])
         delegate?.places(placesArr[indexPath.row])
         self.searchBar.text = ""
