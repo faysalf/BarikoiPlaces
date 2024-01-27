@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct AutoCompleteViewSiwftUI: View {
+public struct BarikoiAutoCompleteViewSiwftUI: View {
     
     @ObservedObject var vm = AutoCompleteViewModel.shared
     @State var searchText = ""
@@ -80,7 +80,7 @@ struct YourView_Previews: PreviewProvider {
         let vm = AutoCompleteViewModel.shared
         vm.placesArr = getArr()
         
-        return AutoCompleteViewSiwftUI(apiKey: "", dismissAction: {}, didTapPlace: {_ in })
+        return BarikoiAutoCompleteViewSiwftUI(apiKey: "", dismissAction: {}, didTapPlace: {_ in })
             .environmentObject(vm)
     }
 }
