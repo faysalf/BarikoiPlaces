@@ -11,10 +11,12 @@ public struct AutoCompleteViewSiwftUI: View {
     
     @ObservedObject var vm = AutoCompleteViewModel.shared
     @State var searchText = ""
+    public var apiKey: String
     public var dismissAction: () -> Void
     public var didTapPlace: (Place) -> Void
     
-    public init(dismissAction: @escaping () -> Void, didTapPlace: @escaping (Place) -> Void) {
+    public init(apiKey: String, dismissAction: @escaping () -> Void, didTapPlace: @escaping (Place) -> Void) {
+        self.apiKey = apiKey
         self.dismissAction = dismissAction
         self.didTapPlace = didTapPlace
     }
@@ -29,7 +31,7 @@ public struct AutoCompleteViewSiwftUI: View {
                         .autocorrectionDisabled(true)
                         .onChange(of: searchText) { newText in
                             if newText.count >= 3 {
-                                vm.getAutocompletePlaces(newText)
+                                vm.getAutocompletePlaces(apiKey, newText)
                             }else {
                                 vm.placesArr = []
                             }
@@ -78,7 +80,7 @@ struct YourView_Previews: PreviewProvider {
         let vm = AutoCompleteViewModel.shared
         vm.placesArr = getArr()
         
-        return AutoCompleteViewSiwftUI(dismissAction: {}, didTapPlace: {_ in })
+        return AutoCompleteViewSiwftUI(apiKey: "", dismissAction: {}, didTapPlace: {_ in })
             .environmentObject(vm)
     }
 }

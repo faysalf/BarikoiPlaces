@@ -16,13 +16,12 @@ class AutoCompleteViewModel: ObservableObject {
     @Published var shouldAnimatingIndicator = false
     @Published var goForNextApiCall = true
     
-    public func getAutocompletePlaces(_ query: String) {
-        let api_key = BarikoiPlacesClient.getApiKey()
-        guard !api_key.isEmpty else { return }
+    public func getAutocompletePlaces(_ apiKey: String, _ query: String) {
+
         shouldAnimatingIndicator = true
 
         if let query = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-            let url = URL(string: "https://barikoi.xyz/v2/api/search/autocomplete/place?api_key=\(api_key)&q=\(query)&bangla=true")!
+            let url = URL(string: "https://barikoi.xyz/v2/api/search/autocomplete/place?api_key=\(apiKey)&q=\(query)&bangla=true")!
             var request = URLRequest(url: url)
             request.httpMethod = "GET"
             
