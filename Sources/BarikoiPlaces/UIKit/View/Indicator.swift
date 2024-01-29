@@ -10,16 +10,16 @@ import UIKit
 class Indicator {
     
     static let shared: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView()
+        var indicator = UIActivityIndicatorView()
         
         if #available(iOS 13.0, *) {
-            let indicator = UIActivityIndicatorView(style: .medium)
+            indicator = UIActivityIndicatorView(style: .large)
         }
         
         indicator.color = .gray
         indicator.backgroundColor = .clear
-        var width = UIScreen.main.bounds.width, height = UIScreen.main.bounds.height
-        var indicatorSz = 20.0
+        let width = UIScreen.main.bounds.width, height = UIScreen.main.bounds.height
+        let indicatorSz = 100.0
         indicator.frame = CGRect(x: (width-indicatorSz)/2, y: 300, width: indicatorSz, height: indicatorSz)
         indicator.layer.cornerRadius = 10.0
         return indicator

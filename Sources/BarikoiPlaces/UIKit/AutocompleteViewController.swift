@@ -15,12 +15,15 @@ public class BarikoiViewController: UIViewController {
     
     private lazy var searchBar: UITextField = {
         let tf = UITextField()
-        tf.autocorrectionType = .no
         tf.backgroundColor = .clear
-        tf.placeholder = "Search Location..."
+        tf.attributedPlaceholder = NSAttributedString(string: "Search Location...", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         tf.textColor = .black
         tf.borderStyle = .roundedRect
-        tf.font = .systemFont(ofSize: 15)
+        tf.layer.cornerRadius = 8
+        tf.layer.borderColor = UIColor(red: 229/255.0, green: 229/255.0, blue: 234/255.0, alpha: 1.0).cgColor
+        tf.layer.borderWidth = 1.0
+        tf.layer.masksToBounds = true
+        tf.font = .systemFont(ofSize: 12)
         return tf
     }()
     
@@ -35,7 +38,7 @@ public class BarikoiViewController: UIViewController {
         btn.backgroundColor = .white
         btn.setTitle("Cancel", for: .normal)
         btn.setTitleColor(.black, for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 15)
+        btn.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
         return btn
     }()
     

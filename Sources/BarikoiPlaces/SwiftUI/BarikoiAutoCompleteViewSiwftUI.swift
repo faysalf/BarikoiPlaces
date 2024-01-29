@@ -43,7 +43,7 @@ public struct BarikoiAutoCompleteViewSiwftUI: View {
                     }, label: {
                         Text("Cancel")
                             .foregroundColor(.black)
-                            .font(Font.system(size: 15))
+                            .font(Font.system(size: 15, weight: .medium))
                     })
                     
                 }
@@ -67,10 +67,12 @@ public struct BarikoiAutoCompleteViewSiwftUI: View {
             
             if vm.shouldAnimatingIndicator {
                 ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: .purple))
+                    .progressViewStyle(CircularProgressViewStyle(tint: .gray))
                     .scaleEffect(2.0)
             }
         }
+        .colorScheme(.light)
+        .background(Color.white)
         
     }
 }
