@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct AutoCompleteComponent: View {
-    
-    @Binding var place: Place
-    var didTapCell: (Place) -> Void
+    var place: Place
+    var didTapCell: (Place?) -> Void
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -31,7 +30,7 @@ struct AutoCompleteComponent: View {
                 }
             })
         }
-        .frame(width: .infinity)
         .colorScheme(.light)
     }
+    
 }

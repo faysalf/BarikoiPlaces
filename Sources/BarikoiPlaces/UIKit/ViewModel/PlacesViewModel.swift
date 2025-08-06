@@ -1,8 +1,8 @@
 //
 //  PlacesViewModel.swift
-//  BarikoiPlaces
 //
-//  Created by Vector360 BD on 4/8/25.
+//
+//  Created by Md. Faysal Ahmed on 5/12/23.
 //
 
 import UIKit

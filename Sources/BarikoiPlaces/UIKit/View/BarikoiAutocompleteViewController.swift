@@ -1,5 +1,5 @@
 //
-//  AutocompleteViewController.swift.swift
+//  AutocompleteViewController.swift
 //
 //
 //  Created by Md. Faysal Ahmed on 5/12/23.
@@ -12,7 +12,7 @@ public protocol BarikoiAutocompleteDelegate {
     func places(_ place: Place?)
 }
 
-public class BarikoiViewController: UIViewController {
+public class BarikoiAutocompleteViewController: UIViewController {
     
     private lazy var searchBar: UITextField = {
         let tf = UITextField()
@@ -149,7 +149,7 @@ public class BarikoiViewController: UIViewController {
 }
 
 // MARK: - Text field delegate
-extension BarikoiViewController: UITextFieldDelegate {
+extension BarikoiAutocompleteViewController: UITextFieldDelegate {
     
     public func textFieldDidChangeSelection(_ textField: UITextField) {
         if let text = textField.text {
@@ -165,7 +165,7 @@ extension BarikoiViewController: UITextFieldDelegate {
 }
 
 // MARK: - Table View delegate & datasource
-extension BarikoiViewController: UITableViewDelegate, UITableViewDataSource {
+extension BarikoiAutocompleteViewController: UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(
         _ tableView: UITableView,
