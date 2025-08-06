@@ -79,6 +79,7 @@ public struct BarikoiAutoCompletePlacesView: View {
         }
         .colorScheme(.light)
         .background(Color.white)
+        .navigationBarHidden(true)
         .onAppear() {
             self.vm.apiKey = self.apiKey
             self.vm.initialQuery = self.initialQuery

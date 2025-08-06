@@ -77,7 +77,7 @@ public class BarikoiAutocompleteViewController: UIViewController {
         
         searchBar.text = ""
         tableView.reloadData()
-
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     public override func viewDidAppear(_ animated: Bool) {
