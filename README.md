@@ -35,7 +35,8 @@ class YourViewController: BarikoiAutocompleteDelegate {
 
 
 <br>
-<h2>For SwiftUI:</h2> Adding a full-screen control to your SwiftUI app is straightforward. Here's how you can do it: <br><br>
+<h2>For SwiftUI:</h2>
+For SwiftuI, adding a full-screen control to your SwiftUI app is straightforward. Here's how you can do it: <br><br>
 
 <B>Step 1</B>. Define a <Code>@State</Code> variable to control the presentation of <Code>BarikoiAutoCompletePlacesView</Code>. <br>
 <B>Step 2</B>. Then present the view using <Code>.sheet</Code>, <Code>NavigationLink</Code>, or any other SwiftUI navigation method you preferred.<br>
