@@ -7,12 +7,6 @@
 
 import UIKit
 
-public struct AddressModel {
-    let address: String
-    let area: String
-    let city: String
-}
-
 public class CustomTableViewCell: UITableViewCell {
 
     public var textContent: Place? {

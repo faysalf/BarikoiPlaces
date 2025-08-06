@@ -23,7 +23,34 @@ public struct Place: Codable, Hashable {
     public let city_bn: String?
     public var area: String
     public let area_bn: String?
-    public let postCode: Int
+    public let postCode: StringOrInt?
     public let pType: String
     public let uCode: String
+}
+
+public struct StringOrInt: Codable, Hashable {
+    let value: String
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        
+        if let intVal = try? container.decode(Int.self) {
+            self.value = String(intVal)
+        }else if let strVal = try? container.decode(String.self) {
+            self.value = strVal
+        }else {
+            throw DecodingError.typeMismatch(
+                String.self,
+                DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Inconsistant json for postCode. Can be string or int")
+            )
+        }
+        
+    }
+    
+}
+
+public struct AddressModel {
+    let address: String
+    let area: String
+    let city: String
 }
