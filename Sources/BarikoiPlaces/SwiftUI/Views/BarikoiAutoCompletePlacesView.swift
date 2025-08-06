@@ -57,7 +57,7 @@ public struct BarikoiAutoCompletePlacesView: View {
                         .background(Color.black.opacity(0.2))
                         .cornerRadius(8.0)
                 })
-                //.buttonStyle(.bordered)
+                //.buttonStyle(.bordered) 
                 
                 List(vm.places, id: \.id) { place in
                     AutoCompleteComponent(place: place, didTapCell: { selectedPlace in
@@ -69,6 +69,7 @@ public struct BarikoiAutoCompletePlacesView: View {
                 
             }
             .padding()
+            
             
 //            if vm.shouldAnimatingIndicator {
 //                ProgressView()
