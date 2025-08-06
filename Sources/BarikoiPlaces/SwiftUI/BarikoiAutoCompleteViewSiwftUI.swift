@@ -95,7 +95,7 @@ func getArr() -> [Place] {
     var arr = [Place]()
     
     for i in 0..<20 {
-        arr.append(Place(id: 517322, longitude: "90.369973182678", latitude: "23.756163746007", address: "Lalmatia, Lalmatia, Dhaka", address_bn: Optional("লালমাটিয়া, লালমাটিয়া, ঢাকা"), city: "Dhaka", city_bn: Optional("ঢাকা"), area: "Lalmatia", area_bn: Optional("লালমাটিয়া"), postCode: 1207, pType: "Admin", uCode: "PQOJ2492"))
+        arr.append(Place(id: 517322, longitude: "90.369973182678", latitude: "23.756163746007", address: "Lalmatia, Lalmatia, Dhaka", address_bn: Optional("লালমাটিয়া, লালমাটিয়া, ঢাকা"), city: "Dhaka", city_bn: Optional("ঢাকা"), area: "Lalmatia", area_bn: Optional("লালমাটিয়া"), postCode: nil, pType: "Admin", uCode: "PQOJ2492"))
     }
     return arr
 }

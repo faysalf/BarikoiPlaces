@@ -9,6 +9,8 @@ import UIKit
 
 public class CustomTableViewCell: UITableViewCell {
 
+    static let CELL_IDENTIFIER = "custom-table-view-cell-identifier"
+    
     public var textContent: Place? {
         didSet {
             guard let textContent = textContent else { return }

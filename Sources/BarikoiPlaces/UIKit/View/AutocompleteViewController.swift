@@ -113,7 +113,7 @@ public class BarikoiViewController: UIViewController {
     private func setupTableView() {
         tableView.backgroundColor = UIColor.white
         tableView.frame = CGRect(x: 0, y: clearButton.frame.maxY+15, width: view.bounds.width, height: view.bounds.height-searchBar.frame.maxY-20)
-        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.CELL_IDENTIFIER)
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -178,7 +178,7 @@ extension BarikoiViewController: UITableViewDelegate, UITableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.CELL_IDENTIFIER, for: indexPath) as! CustomTableViewCell
         cell.textContent = vm.places[indexPath.row]
         return cell
     }
