@@ -77,6 +77,8 @@ public struct BarikoiAutoCompletePlacesView: View {
 //            }
             
         }
+        .edgesIgnoringSafeArea(.vertical)
+        .padding(.vertical)
         .colorScheme(.light)
         .background(Color.white)
         .navigationBarHidden(true)
