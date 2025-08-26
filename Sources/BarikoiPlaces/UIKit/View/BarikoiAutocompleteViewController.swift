@@ -134,17 +134,24 @@ public class BarikoiAutocompleteViewController: UIViewController {
     // MARK: - Button actions
     @objc
     func didTapCancel(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
-        self.navigationController?.popViewController(animated: true)
+        dismisViewAction()
     }
     
     @objc
     func didTapClearButton(_ sender: UIButton) {
         delegate?.places(nil)
-        self.dismiss(animated: true, completion: nil)
-        self.navigationController?.popViewController(animated: true)
+        dismisViewAction()
     }
     
+    private func dismisViewAction() {
+        if let nav = navigationController,
+            nav.viewControllers.first != self {
+            nav.popViewController(animated: true)
+            return
+        }
+        dismiss(animated: true, completion: nil)
+        
+    }
     
 }
 
@@ -197,8 +204,8 @@ extension BarikoiAutocompleteViewController: UITableViewDelegate, UITableViewDat
         debugPrint(vm.places[indexPath.row])
         delegate?.places(vm.places[indexPath.row])
         self.searchBar.text = ""
-        self.dismiss(animated: true, completion: nil)
-        self.navigationController?.popViewController(animated: true)
+        
+        dismisViewAction()
 
     }
     
