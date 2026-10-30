@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import SwiftUI
 
 public protocol BarikoiAutocompleteDelegate {
     func places(_ place: Place?)
@@ -66,7 +67,7 @@ public class BarikoiAutocompleteViewController: UIViewController {
         
         view.backgroundColor = UIColor.white
         setupSearchBar()
-        setupClearLocationButton()
+        //setupClearLocationButton()
         setupTableView()
         configureUI()
         vm.initialQuery = initialQuery
@@ -91,7 +92,7 @@ public class BarikoiAutocompleteViewController: UIViewController {
         super.viewWillLayoutSubviews()
         
         view.addSubview(searchBar)
-        view.addSubview(clearButton)
+        //view.addSubview(clearButton)
         view.addSubview(tableView)
         view.addSubview(cancelButton)
     }
@@ -112,7 +113,7 @@ public class BarikoiAutocompleteViewController: UIViewController {
 
     private func setupTableView() {
         tableView.backgroundColor = UIColor.white
-        tableView.frame = CGRect(x: 0, y: clearButton.frame.maxY+15, width: view.bounds.width, height: view.bounds.height-searchBar.frame.maxY-20)
+        tableView.frame = CGRect(x: 0, y: searchBar.frame.maxY+16, width: view.bounds.width, height: view.bounds.height-searchBar.frame.maxY-20)
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.CELL_IDENTIFIER)
         tableView.delegate = self
         tableView.dataSource = self
@@ -211,19 +212,16 @@ extension BarikoiAutocompleteViewController: UITableViewDelegate, UITableViewDat
     
 }
 
-//struct BarikoiViewControllerWrapper: UIViewControllerRepresentable {
-//    func makeUIViewController(context: Context) -> UIViewController {
-//        return BarikoiViewController()
-//    }
-//
-//    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-//        // Update
-//    }
-//}
-//
-//@available(iOS 15.0, *)
-//struct BarikoiViewControllerWrapper_Previews: PreviewProvider {
-//    static var previews: some View {
-//        BarikoiViewControllerWrapper()
-//    }
-//}
+struct BarikoiViewControllerWrapper: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+        return BarikoiAutocompleteViewController()
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+        // Update
+    }
+}
+
+#Preview {
+    BarikoiViewControllerWrapper()
+}

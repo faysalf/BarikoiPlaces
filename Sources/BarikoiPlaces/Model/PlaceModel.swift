@@ -14,7 +14,7 @@ struct PlaceModel: Codable {
 }
 
 public struct Place: Codable, Hashable {
-    public let id: Int
+    public let id: Int?
     public let longitude: String
     public let latitude: String
     public var address: String
