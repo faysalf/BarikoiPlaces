@@ -26,13 +26,29 @@ public struct BarikoiAutoCompletePlacesView: View {
         ZStack {
             VStack(alignment: .leading, spacing: 16) {
                 
-                HStack(alignment: .center, spacing: 5) {
-                    TextField("Search Location...", text: $searchText)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .autocorrectionDisabled(true)
-                        .onChange(of: searchText) { newText in
-                            vm.setSearchQuery(newText)
+                HStack(alignment: .center, spacing: 8) {
+                    HStack(spacing: 8) {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.secondary)
+                        
+                        TextField("Search location...", text: $searchText)
+                            .autocorrectionDisabled(true)
+                            .textInputAutocapitalization(.never)
+                            .onChange(of: searchText) { newText in
+                                vm.setSearchQuery(newText)
+                            }
+                        
+                        if !searchText.isEmpty {
+                            Button(action: { searchText = "" }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(.secondary)
+                            }
                         }
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 10)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(10)
                     
                     Button(action: {
                         dismissAction()
@@ -45,20 +61,6 @@ public struct BarikoiAutoCompletePlacesView: View {
                     
                 }
                 
-                Button(action: {
-                    didTapPlace(nil)
-                    dismissAction()
-                    
-                }, label: {
-                    Text("Clear Location X")
-                        .foregroundColor(.red)
-                        .font(Font.system(size: 15, weight: .medium))
-                        .padding(10)
-                        .background(Color.black.opacity(0.2))
-                        .cornerRadius(8.0)
-                })
-                //.buttonStyle(.bordered) 
-                
                 List(vm.places, id: \.id) { place in
                     AutoCompleteComponent(place: place, didTapCell: { selectedPlace in
                         didTapPlace(selectedPlace)
@@ -66,24 +68,15 @@ public struct BarikoiAutoCompletePlacesView: View {
                     })
                 }
                 .listStyle(.plain)
-                
+                .animation(.easeInOut, value: vm.places)
             }
             .padding()
             
-            
-//            if vm.shouldAnimatingIndicator {
-//                ProgressView()
-//                    .progressViewStyle(CircularProgressViewStyle(tint: .gray))
-//                    .scaleEffect(2.0)
-//            }
-            
         }
-        .edgesIgnoringSafeArea(.vertical)
-        .colorScheme(.light)
-        .background(Color.white)
-        .padding(.vertical)
-        .background(Color.white)
         .navigationBarHidden(true)
+        .preferredColorScheme(.light)
+        .background(Color.white.ignoresSafeArea())
+        .edgesIgnoringSafeArea(.bottom)
         .onAppear() {
             self.vm.apiKey = self.apiKey
             self.vm.initialQuery = self.initialQuery
@@ -104,4 +97,11 @@ func getArr() -> [Place] {
         arr.append(Place(id: 517322+i, longitude: "90.369973182678", latitude: "23.756163746007", address: "Lalmatia, Lalmatia, Dhaka", address_bn: Optional("লালমাটিয়া, লালমাটিয়া, ঢাকা"), city: "Dhaka", city_bn: Optional("ঢাকা"), area: "Lalmatia", area_bn: Optional("লালমাটিয়া"), postCode: nil, pType: "Admin", uCode: "PQOJ2492"))
     }
     return arr
+}
+
+#Preview {
+    BarikoiAutoCompletePlacesView(
+        apiKey: "",                 /// Enter your api key here
+        didTapPlace: {_ in }
+    )
 }
